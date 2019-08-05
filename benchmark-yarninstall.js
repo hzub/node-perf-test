@@ -1,15 +1,18 @@
 const { spawn } = require('child_process');
 const { resolve } = require('path');
 
+const dirname = resolve(__dirname, 'testapp');
+
 const start = Date.now();
 console.log('[Spawn]: Started the process');
-const app = spawn('npm', ['install'], {
-  cwd: resolve(__dirname, 'testapp'),
-});
 
-app.stdout.pipe(process.stdout);
+// Linux version, in order to run it on Windows use `spawn(`cmd`, ['/c', 'yarn'])`
+const app = spawn('yarn', {
+  cwd: dirname,
+});
 
 app.on('exit', () => {
   const end = Date.now();
   console.log(`[Spawn]: Finished the process, took ${end - start} milliseconds.`);
+  resolve();
 });
